@@ -1,0 +1,39 @@
+{
+  "name": "inflect-tts-app",
+  "version": "0.1.0",
+  "description": "Entirely in-browser text-to-speech using Inflect Nano/Micro (ONNX) and espeak-ng WASM -- no server round-trip for synthesis.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier -w .",
+    "lint": "oxlint src",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@effect/platform-browser": "4.0.0-beta.101",
+    "@foldkit/devtools": "^0.132.0",
+    "@foldkit/ui": "^0.132.0",
+    "@tailwindcss/vite": "^4.3.1",
+    "effect": "4.0.0-beta.101",
+    "foldkit": "^0.132.0",
+    "n2words": "^5.1.2",
+    "onnxruntime-web": "^1.27.0",
+    "phonemizer": "^1.2.1",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "@foldkit/devtools-mcp": "^0.13.4",
+    "@foldkit/oxlint-plugin": "^0.4.0",
+    "@foldkit/vite-plugin": "^0.11.1",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "oxlint": "^1.75.0",
+    "prettier": "^3.8.4",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.9"
+  }
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/src/styles.css" rel="stylesheet" />
+    <title>Inflect TTS</title>
+    <script type="module">
+      // Not a plain <script src> because Vite's dev server and its
+      // production build disagree on how root-absolute references to
+      // public/ files should be base-prefixed: dev auto-prefixes any
+      // literal "/x" attribute once, while the build only prefixes via
+      // the %BASE_URL% placeholder -- combining them (needed for build)
+      // doubled the path in dev (/webtts-inflect/webtts-inflect/...).
+      // import.meta.env.BASE_URL is a real JS expression Vite resolves
+      // consistently in both modes, so compute the URL here instead.
+      //
+      // PROD-only: the service worker intercepts every fetch on the page,
+      // including Vite's own dev-server requests (HMR, module graph), and
+      // chokes on some of them ("Failed to convert value to 'Response'").
+      // Dev doesn't need cross-origin isolation for anything to actually
+      // work -- worker.ts already falls back to single-threaded WASM
+      // whenever crossOriginIsolated is false, same as before this file
+      // existed at all -- so there's no reason to register it there.
+      if (import.meta.env.PROD) {
+        const coi = document.createElement('script')
+        coi.src = `${import.meta.env.BASE_URL}coi-serviceworker.js`
+        document.head.appendChild(coi)
+      } else if (navigator.serviceWorker) {
+        // Self-healing for dev: a service worker registered by an earlier
+        // production-mode test (or before this PROD-only gating existed)
+        // stays installed and controlling the page across reloads until
+        // explicitly unregistered -- clear any leftover registration so
+        // dev doesn't keep tripping over it.
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (const registration of registrations) {
+            void registration.unregister()
+          }
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./src/entry.ts"></script>
+  </body>
+</html>
